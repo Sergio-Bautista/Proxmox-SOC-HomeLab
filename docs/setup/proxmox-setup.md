@@ -1,63 +1,66 @@
-Proxmox VE Server Setup
+ ____                                     __     _______   ____                             ____       _               
+|  _ \ _ __ _____  ___ __ ___   _____  __ \ \   / / ____| / ___|  ___ _ ____   _____ _ __  / ___|  ___| |_ _   _ _ __  
+| |_) | '__/ _ \ \/ / '_ ` _ \ / _ \ \/ /  \ \ / /|  _|   \___ \ / _ \ '__\ \ / / _ \ '__| \___ \ / _ \ __| | | | '_ \ 
+|  __/| | | (_) >  <| | | | | | (_) >  <    \ V / | |___   ___) |  __/ |   \ V /  __/ |     ___) |  __/ |_| |_| | |_) |
+|_|   |_|  \___/_/\_\_| |_| |_|\___/_/\_\    \_/  |_____| |____/ \___|_|    \_/ \___|_|    |____/ \___|\__|\__,_| .__/ 
+                                                                                                                |_|    
 
+*Hardware Preparation:*
+- (e.g., BIOS settings, boot order for USB/DVD). Ensure your Proxmox host has at least one physical network interface card (NIC).
 
-Hardware Preparation: (e.g., BIOS settings, boot order for USB/DVD). Ensure your Proxmox host has at least one physical network interface card (NIC).
+1. *Proxmox VE Installation:*
+    - Download Proxmox ISO [https://www.proxmox.com/en/downloads].
+    - Create bootable USB. [Using rufus or any other software]
+    - Boot from USB and follow installer.
+    - Network configuration during install (configure eno1 and vmbr0 for Proxmox management, as described below).
+    - Initial login to Proxmox web UI (https://[your_proxmox_ip]:8006).
 
-Proxmox VE Installation:
-Download Proxmox ISO [https://www.proxmox.com/en/downloads].
-Create bootable USB. [Using rufus or any other software]
-Boot from USB and follow installer.
-Network configuration during install (configure eno1 and vmbr0 for Proxmox management, as described below).
-Initial login to Proxmox web UI (https://[your_proxmox_ip]:8006).
+2. *Storage Configuration:*
+    - Details of your storage (e.g., local-lvm for VMs, local for ISOs/templates).
+    - Any additional storage added (e.g., NFS, ZFS, CEPH).
 
-Storage Configuration:
-Details of your storage (e.g., local-lvm for VMs, local for ISOs/templates).
-Any additional storage added (e.g., NFS, ZFS, CEPH).
+3. *Network Bridge Configuration:*
+    - How you set up vmbr0, vmbr1, vmbr2, and vmbr3 in Proxmox.
+    - Crucial for Single NIC Isolation with Internet Access:
+        - vmbr0 will be shared for both Proxmox management and pfSense WAN.
+        - Example of /etc/network/interfaces for single NIC isolated lab with internet access:
+   
+    - # /etc/network/interfaces
+    - # Physical network adapter for Proxmox Management and Lab Internet/WAN access
+    - # (e.g., eno1 - connect this to your home network/router)
+        - auto eno1
+        - iface eno1 inet manual
 
-Network Bridge Configuration:
-How you set up vmbr0, vmbr1, vmbr2, and vmbr3 in Proxmox.
-Crucial for Single NIC Isolation with Internet Access:
-vmbr0 will be shared for both Proxmox management and pfSense WAN.
-Example of /etc/network/interfaces for single NIC isolated lab with internet access:
-# /etc/network/interfaces
+    - # Shared Bridge for Proxmox Management AND Lab Internet/WAN (pfSense WAN will connect here)
+        - auto vmbr0
+        - iface vmbr0 inet static
+            - address 192.168.1.10/24  # Replace with your actual Proxmox management IP in your home network
+            - gateway 192.168.1.1     # Replace with your actual home router's IP
+            - bridge-ports eno1       # Bridge to your physical NIC connected to home network
+            - bridge-stp off
+            - bridge-fd 0
 
-auto lo
-iface lo inet loopback
+    - # LAN Bridge (Internal - Management/Attacker - Kali Linux)
+        - auto vmbr1
+        - iface vmbr1 inet manual
+            - bridge-ports none
+            - bridge-stp off
+            - bridge-fd 0
 
-# Physical network adapter for Proxmox Management and Lab Internet/WAN access
-# (e.g., eno1 - connect this to your home network/router)
-auto eno1
-iface eno1 inet manual
+    - # DMZ Bridge (Vulnerable Zone - Metasploitable 2/3, Windows Client)
+        - auto vmbr2
+        - iface vmbr2 inet manual
+            - bridge-ports none
+            - bridge-stp off
+            - bridge-fd 0
 
-# Shared Bridge for Proxmox Management AND Lab Internet/WAN (pfSense WAN will connect here)
-auto vmbr0
-iface vmbr0 inet static
-    address 192.168.1.10/24  # Replace with your actual Proxmox management IP in your home network
-    gateway 192.168.1.1     # Replace with your actual home router's IP
-    bridge-ports eno1       # Bridge to your physical NIC connected to home network
-    bridge-stp off
-    bridge-fd 0
+    - # Blue Team Tools Network Bridge (Wazuh, TheHive)
+        - auto vmbr3
+        - iface vmbr3 inet manual
+            - bridge-ports none
+            - bridge-stp off
+            - bridge-fd 0
 
-# LAN Bridge (Internal - Management Network for your VMs - Kali Linux)
-auto vmbr1
-iface vmbr1 inet manual
-    bridge-ports none
-    bridge-stp off
-    bridge-fd 0
-
-# DMZ Bridge (Vulnerable Zone - Metasploitable 2/3, Windows Client)
-auto vmbr2
-iface vmbr2 inet manual
-    bridge-ports none
-    bridge-stp off
-    bridge-fd 0
-
-# Blue Team Tools Network Bridge (Wazuh, TheHive)
-auto vmbr3
-iface vmbr3 inet manual
-    bridge-ports none
-    bridge-stp off
-    bridge-fd 0
-
-
-Warning: After changing /etc/network/interfaces, you will need to restart networking (systemctl restart networking), reboot your Proxmox server or click on the "Apply Configuration" button. Ensure you have console access in case of issues. Your Proxmox web interface will only be accessible via the vmbr0 IP on your home network.
+4. *Warning:*
+    - After changing /etc/network/interfaces, you will need to restart networking (systemctl restart networking), reboot your Proxmox server or click on the "Apply Configuration" button. Ensure you have console access in case of issues.
+    - Your Proxmox web interface will only be accessible via the vmbr0 IP on your home network.
