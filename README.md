@@ -82,20 +82,40 @@ Safely experiment with intentionally vulnerable systems.
  |_| |_/_/   \_\_| \_\____/  \_/\_/_/   \_\_| \_\_____|  \___/\/ |____/ \___/|_|     |_|    \_/\_/_/   \_\_| \_\_____| |____/ |_/_/   \_\____|_|\_\ 
                                                                                                                                                     
 ````
-Host Machine:
-    Hardware: [Old Custom PC, CPU: Ryzen 7 1700x, RAM 32gb @ 3200Mhz, Storage: 256gb SSD (OS), Two 2TB Hard Drives (RAID 1 - mirror) for VM disks. Requires only one physical network interface card (NIC)]
-    Operating System: Proxmox VE [Version 8.x]
+*Host Machine:*
+    *Hardware:* 
+        Old Custom PC 
+        
+        *CPU:* Ryzen 7 1700x 
+        
+        *RAM *32gb @ 3200Mhz 
+        
+        *Storage:* 256gb SSD (OS)
+        Two 2TB Hard Drives (RAID 1 - mirror) for VM disks.
+         
+        Requires only one physical network interface card (NIC)
+    
+        *Operating System:* Proxmox VE [Version 8.x]
 
-Virtual Machines:
-    pfSense: VMs Firewall/Router
-    Wazuh: SIEM/XDR (Manager and Dashboard)
-    TheHive: Free Security Incident Response Platform
-    Kali Linux: Attacker Workstation
-    Windows Client: Standard user workstation (Windows 10)
-    Metasploitable 2: Vulnerable Linux Target
-    Metasploitable 3: Vulnerable Windows Server 2008 R2 Target
-    Windows Server: For Active Directory (Future)
-    Windows/Linux Machines: Add more targets (Future)
+*Virtual Machines:*
+
+    *pfSense:* VMs Firewall/Router
+    
+    *Wazuh:* SIEM/XDR (Manager and Dashboard)
+    
+    *TheHive:* Free Security Incident Response Platform
+    
+    *Kali Linux:* Attacker Workstation
+    
+    *Windows Client:* Standard user workstation (Windows 10)
+    
+    *Metasploitable 2:* Vulnerable Linux Target
+    
+    *Metasploitable 3*: Vulnerable Windows Server 2008 R2 Target
+    
+    *Windows Server:* For Active Directory (Future)
+    
+    *Windows/Linux Machines:* Add more targets (Future)
 
 
 ````
@@ -107,20 +127,26 @@ Virtual Machines:
                                                     |_|                  |___/ |___/ 
 
 ````
-Example Description:
-    The lab uses several virtual networks (Proxmox Bridges) managed by pfSense:
-        Shared WAN/Proxmox Management: vmbr0 (bridged to physical NIC eno1). This bridge handles both Proxmox host management from your home network and provides internet access to the lab via pfSense's WAN interface.
-    Lab Management/Attacker Network (LAN): 
+*Example Description:*
+
+    *The lab uses several virtual networks (Proxmox Bridges) managed by pfSense:*    
+        Shared WAN/Proxmox Management: vmbr0 (bridged to physical NIC eno1). This bridge handles both Proxmox host management from your home network and provides internet access to the lab via pfSense's 
+        
+   *WAN interface.*
+
+    *Lab Management/Attacker Network (LAN):* 
         vmbr1 (10.0.0.0/24) - Where Kali Linux will reside.
-    Vulnerable Zone (DMZ): 
+    
+    *Vulnerable Zone (DMZ):* 
         vmbr2 (10.0.10.0/24) - Where Metasploitable 2/3 and your Windows Client VM will reside.
-    Blue Team Tools Network: 
+    
+    *Blue Team Tools Network:* 
         vmbr3 (10.0.20.0/24) - Where Wazuh and TheHive will reside.
 
 ````
 +------------------+         +-------------------------+
 |   Home Network   |         |                         |
-| (e.g., 192.168.1.0/24) |         |      Internet         |
+| (e.g., 192.168.0.0/24) |         |      Internet         |
 |   (Router, PCs)  |         |                         |
 +---------+--------+         +-----------^-------------+
           | Phys. NIC eno1             |
@@ -212,11 +238,16 @@ This means default connectivity between different segments is generally blocked 
                                              |_|                                                                  |___/                                   
 
 ````
-Connectivity Tests:
+*Connectivity Tests:*
+    
     Verify all VMs can ping each other across the correct network segments. Verify VMs can reach the internet. Crucially, test that VMs CANNOT ping your Proxmox host's management IP or devices on your home network.
-Wazuh Agent Enrollment: 
+
+*Wazuh Agent Enrollment:*
+    
     Confirm all endpoints (Kali, Windows Client, Metasploitables) are reporting to the Wazuh Manager.
-Initial Scans: 
+
+*Initial Scans:*
+    
     Run a basic Nmap scan from Kali against Metasploitable targets to confirm network reachability and open ports.
 
 
@@ -229,11 +260,16 @@ Initial Scans:
                   |___/                                                    |___/            |__/
 
 ````
-Red Teaming: 
+*Red Teaming:* 
+   
     Practice vulnerability scanning, exploitation, post-exploitation.
-Blue Teaming: 
+
+*Blue Teaming:* 
+
     Monitor alerts in Wazuh, investigate logs, perform incident response.
-Purple Teaming: 
+
+*Purple Teaming:* 
+   
     Combine red and blue team exercises to improve detection and response capabilities.
 
 
@@ -258,16 +294,16 @@ Add more intentionally vulnerable applications (e.g., OWASP Juice Shop).
                                                                        |___/
 
 ````
-"System Recovery Options" loop on Metasploitable 3: 
+*"System Recovery Options" loop on Metasploitable 3:* 
     Solved by changing VM disk Bus/Device from SCSI to IDE in Proxmox.
 
-Ctrl+Alt+Delete issue: 
+*Ctrl+Alt+Delete issue:* 
     Solved by using the Proxmox console's dedicated button or Ctrl+Alt+Insert.
 
-Network connectivity issues: 
+*Network connectivity issues:* 
     Verify Proxmox bridges, pfSense firewall rules (especially the new isolation rules), and VM network adapter types (E1000 vs. VirtIO).
 
-Wazuh Agent not connecting: 
+*Wazuh Agent not connecting:* 
     Check firewall rules, agent configuration (manager IP), and manager logs.
 
 ````
@@ -279,11 +315,18 @@ Wazuh Agent not connecting:
 
 ````
 Proxmox VE Official Website - [https://www.proxmox.com/en/]
+
 pfSense Official Website - [https://www.pfsense.org/]
+
 Wazuh Official Documentation - [https://documentation.wazuh.com/current/index.html]
+
 Kali Linux Official Website - [https://www.kali.org/]
+
 Metasploitable 2 - [https://docs.rapid7.com/metasploit/metasploitable-2/]
+
 Metasploitable 3 GitHub - [https://github.com/rapid7/metasploitable3]
+
 Fedora VirtIO Drivers (for virtio-win.iso) [https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/]
+
 Check out this tutorial - [https://www.youtube.com/watch?v=VuSKMPRXN1M&t=764s]
 
