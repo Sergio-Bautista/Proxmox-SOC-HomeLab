@@ -199,7 +199,7 @@ The lab uses several virtual networks (Proxmox Bridges) managed by pfSense:
 With pfSense as your central firewall, it acts as the gatekeeper between all your virtual networks. 
 This means default connectivity between different segments is generally blocked by the firewall until you explicitly allow it
 
-SEE [firewall-configuration.md] FILE(docs/firewall-configuration.md) 
+See [firewall-configuration.md](docs/firewall-configuration.md) 
 
 ````
            _                             _     _      
