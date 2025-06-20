@@ -67,7 +67,8 @@ F8.-uture Plans
                                           
 ````
 
-This lab provides a simulated network environment to:
+*This lab provides a simulated network environment to:*
+
 Practice penetration testing techniques using Kali Linux.
 Monitor network and endpoint activities with Wazuh.
 Analyze security incidents and respond to threats.
@@ -83,12 +84,12 @@ Safely experiment with intentionally vulnerable systems.
                                                                                                                                                     
 ````
 *Host Machine:*
-    *Hardware:* 
-        Old Custom PC 
+
+*Hardware:* Old Custom PC 
         
         CPU: Ryzen 7 1700x 
         
-        RAM 32gb @ 3200Mhz 
+        RAM 32gb @ 3200Mhz (future upgrade)
         
         Storage: 256gb SSD (OS)
         Two 2TB Hard Drives (RAID 1 - mirror) for VM disks.
@@ -105,8 +106,7 @@ Safely experiment with intentionally vulnerable systems.
     
     TheHive: Free Security Incident Response Platform
     
-    Kali Linux: Attacker Workstation
-    
+    Kali Linux: Attacker Workstation    
     Windows Client: Standard user workstation (Windows 10)
     
     Metasploitable 2: Vulnerable Linux Target
@@ -145,46 +145,71 @@ Safely experiment with intentionally vulnerable systems.
         vmbr3 (10.0.20.0/24) - Where Wazuh and TheHive will reside.
 
 ````
-+------------------+         +-------------------------+
-|   Home Network   |         |                         |
-| (e.g., 192.168.0.0/24) |         |      Internet         |
-|   (Router, PCs)  |         |                         |
-+---------+--------+         +-----------^-------------+
-          | Phys. NIC eno1             |
-          |                            |
-+---------+--------+-------------------^------------------+
-|                  | vmbr0 (Shared WAN / Proxmox Mgmt)     |
-|                  |                                        |
-|   Proxmox Host   |----------------------------------------+
-|                  |                                        |
-+------------------+       +-----------------------------+
-                           |                             |
-                           | pfSense VM (Firewall)       |
-                           | WAN (vtnet0): DHCP from Home |
-                           |                             |
-                           +------------^----------------+
+                            +-------------------------+
+                            |                         |
+                            |        Internet         |
+                            |                         |
+                            +-----------^-------------+
+                                        |
+                                        |
+            +---------------------------^---------------------------+ 
+            |                                                       |
+            |                                                       | 
++-----------^-------------+                             +-----------^----------+             
+|      Home Netwrok       |                             |      Proxmox WAN     |               
+|   (e.g, 192.168.0.1/24) |                             |       Interface      |
+|       (router)          |                             |        (vmbr0)       |
++-----------^-------------+                             +-----------^----------+  
+            |                                                       |
+            |                                                       |
+            +---------------------------|---------------------------+                                
+                                        |
+                            +-----------^-------------+
+                            |      Network Switch     |
+                            |        (Amazon)         |
+                            +-----------^-------------+
+                                        |
+                                        |
+                              +---------^--------+ 
+                              |                  | 
+                              |   Proxmox Host   |
+                              |                  |
+                              +---------^--------+  
+                                        |
+                                        |
+                      +-----------------^-----------------+
+                      |               vmbr0               |
+                      |    (Shared WAN / Proxmox Mgmt)    |
+                      +-----------------^-----------------+
+                                        |
+                                        |
+                        +---------------^-------------+
+                        |                             |
+                        |  pfSense VM (Firewall)      |
+                        |  WAN(vmbr0): DHCP from Home |
+                        |                             |
+                        +---------------^-------------+
                                         |
                                         |
                 +-----------------------+-----------------------+
                 |                       |                       |
-      vmbr1 (10.0.0.0/24)   vmbr2 (10.0.10.0/24)    vmbr3 (10.0.20.0/24)
-  (MGMT/ATTACKER LAN)      (VULNERABLE DMZ)     (BLUE TEAM TOOLS)
+       vmbr1 (10.0.0.0/24)      vmbr2 (10.0.10.0/24)    vmbr3 (10.0.20.0/24)
+       (MGMT/ATTACKER LAN)       (VULNERABLE DMZ)        (BLUE TEAM TOOLS)
                 |                       |                       |
-        +-------+-------+       +-------+-------+       +-------+-------+
-        |  Kali Linux   |       | Metasploitable2 |       |     Wazuh     |
-        | (10.0.0.10)   |       | (10.0.10.100)   |       | (10.0.20.100) |
-        +---------------+       +---------------+       +---------------+
-                                |                       |
-                                |                       |
-                                +-------+-------+       +-------+-------+
-                                | Metasploitable3 |       |   TheHive     |
-                                | (10.0.10.101)   |       | (10.0.20.101) |
-                                +---------------+       +---------------+
-                                |
-                                +-------+-------+
+        +-------^-------+       +-------^---------+     +-------^-------+
+        |  Kali Linux   |       | Metasploitable2 |     |     Wazuh     |
+        | (10.0.0.10)   |       | (10.0.10.100)   |     | (10.0.20.100) |
+        +---------------+       +-------^---------+     +-------^-------+
+                                        |                       |
+                                +-------^---------+     +-------^-------+
+                                | Metasploitable3 |     |   TheHive     |
+                                | (10.0.10.101)   |     | (10.0.20.101) |
+                                +-------^---------+     +---------------+
+                                        |
+                                +-------^---------+
                                 | Windows Client  |
                                 | (10.0.10.102)   |
-                                +---------------+
+                                +-----------------+
 ````
 
 ````
