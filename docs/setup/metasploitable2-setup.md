@@ -1,10 +1,11 @@
+````
  __  __      _                  _       _ _        _     _      ____   
 |  \/  | ___| |_ __ _ ___ _ __ | | ___ (_) |_ __ _| |__ | | ___|___ \  
 | |\/| |/ _ \ __/ _` / __| '_ \| |/ _ \| | __/ _` | '_ \| |/ _ \ __) | 
 | |  | |  __/ || (_| \__ \ |_) | | (_) | | || (_| | |_) | |  __// __/  
 |_|  |_|\___|\__\__,_|___/ .__/|_|\___/|_|\__\__,_|_.__/|_|\___|_____| 
                          |_|                                           
-
+````
 Metasploitable2 is a deliberately vulnerable Linux VM. It's quite old but still useful for basic penetration testing practice.
 
 1. *Specifications:*
