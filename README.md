@@ -9,17 +9,21 @@
 :        |___/                                                                     :
 ····················································································
 ````
-
-************************************************************************************************************
-MY HOME SOC LAB
-************************************************************************************************************
 This repository documents the setup and configuration of my home Security Operations Center (SOC) lab, 
 designed for practicing offensive and defensive cybersecurity skills in a controlled environment.
 
 
-************************************************************************************************************
-TABLE OF CONTENT
-************************************************************************************************************
+````
+················································································
+:  _____     _     _               __    ____            _             _       :
+: |_   _|_ _| |__ | | ___    ___  / _|  / ___|___  _ __ | |_ ___ _ __ | |_ ___ :
+:   | |/ _` | '_ \| |/ _ \  / _ \| |_  | |   / _ \| '_ \| __/ _ \ '_ \| __/ __|:
+:   | | (_| | |_) | |  __/ | (_) |  _| | |__| (_) | | | | ||  __/ | | | |_\__ \:
+:   |_|\__,_|_.__/|_|\___|  \___/|_|    \____\___/|_| |_|\__\___|_| |_|\__|___/:
+:                                                                              :
+················································································
+
+````
 1.-Lab Overview
 2.-Hardware & Software Stack
 3.-Network Topology
@@ -38,10 +42,15 @@ F8.-uture Plans
 9.-Troubleshooting Notes
 10Credits & Resources
 
+````
+  _          _        ___                       _               
+ | |    __ _| |__    / _ \__   _____ _ ____   _(_) _____      __
+ | |   / _` | '_ \  | | | \ \ / / _ \ '__\ \ / / |/ _ \ \ /\ / /
+ | |__| (_| | |_) | | |_| |\ V /  __/ |   \ V /| |  __/\ V  V / 
+ |_____\__,_|_.__/   \___/  \_/ \___|_|    \_/ |_|\___| \_/\_/                                             
+                                          
+````
 
-************************************************************************************************************
-1. LAB OVERVIEW 
-************************************************************************************************************
 This lab provides a simulated network environment to:
 Practice penetration testing techniques using Kali Linux.
 Monitor network and endpoint activities with Wazuh.
@@ -49,10 +58,14 @@ Analyze security incidents and respond to threats.
 Understand firewall rules and network segmentation with pfSense.
 Safely experiment with intentionally vulnerable systems.
 
-
-************************************************************************************************************
-2. HARDWARE & SOFTWARE STACK 
-************************************************************************************************************
+````
+  _   _    _    ____  ______        ___    ____  _____    ___     ____   ___  _____ _______        ___    ____  _____   ____ _____  _    ____ _  __ 
+ | | | |  / \  |  _ \|  _ \ \      / / \  |  _ \| ____|  ( _ )   / ___| / _ \|  ___|_   _\ \      / / \  |  _ \| ____| / ___|_   _|/ \  / ___| |/ / 
+ | |_| | / _ \ | |_) | | | \ \ /\ / / _ \ | |_) |  _|    / _ \/\ \___ \| | | | |_    | |  \ \ /\ / / _ \ | |_) |  _|   \___ \ | | / _ \| |   | ' /  
+ |  _  |/ ___ \|  _ <| |_| |\ V  V / ___ \|  _ <| |___  | (_>  <  ___) | |_| |  _|   | |   \ V  V / ___ \|  _ <| |___   ___) || |/ ___ \ |___| . \  
+ |_| |_/_/   \_\_| \_\____/  \_/\_/_/   \_\_| \_\_____|  \___/\/ |____/ \___/|_|     |_|    \_/\_/_/   \_\_| \_\_____| |____/ |_/_/   \_\____|_|\_\ 
+                                                                                                                                                    
+````
 Host Machine:
     Hardware: [Old Custom PC, CPU: Ryzen 7 1700x, RAM 32gb @ 3200Mhz, Storage: 256gb SSD (OS), Two 2TB Hard Drives (RAID 1 - mirror) for VM disks. Requires only one physical network interface card (NIC)]
     Operating System: Proxmox VE [Version 8.x]
@@ -69,9 +82,15 @@ Virtual Machines:
     Windows/Linux Machines: Add more targets (Future)
 
 
-************************************************************************************************************
-3. NETWORK TOPOLOGY 
-************************************************************************************************************
+````
+  _   _      _                      _      _____                 _                   
+ | \ | | ___| |___      _____  _ __| | __ |_   _|__  _ __   ___ | | ___   __ _ _   _ 
+ |  \| |/ _ \ __\ \ /\ / / _ \| '__| |/ /   | |/ _ \| '_ \ / _ \| |/ _ \ / _` | | | |
+ | |\  |  __/ |_ \ V  V / (_) | |  |   <    | | (_) | |_) | (_) | | (_) | (_| | |_| |
+ |_| \_|\___|\__| \_/\_/ \___/|_|  |_|\_\   |_|\___/| .__/ \___/|_|\___/ \__, |\__, |
+                                                    |_|                  |___/ |___/ 
+
+````
 Example Description:
     The lab uses several virtual networks (Proxmox Bridges) managed by pfSense:
         Shared WAN/Proxmox Management: vmbr0 (bridged to physical NIC eno1). This bridge handles both Proxmox host management from your home network and provides internet access to the lab via pfSense's WAN interface.
@@ -81,11 +100,6 @@ Example Description:
         vmbr2 (10.0.10.0/24) - Where Metasploitable 2/3 and your Windows Client VM will reside.
     Blue Team Tools Network: 
         vmbr3 (10.0.20.0/24) - Where Wazuh and TheHive will reside.
-
-
-************************************************************************************************************
-4. NETWORK CONNECTIVITY AND FIREWALL RULES EXPLAINED
-************************************************************************************************************
 
 ````
 +------------------+         +-------------------------+
@@ -130,21 +144,58 @@ Example Description:
                                 +---------------+
 ````
 
+````
+ _   _      _                      _       ____                            _   _       _ _                           _  
+ | \ | | ___| |___      _____  _ __| | __  / ___|___  _ __  _ __   ___  ___| |_(_)_   _(_) |_ _   _    __ _ _ __   __| | 
+ |  \| |/ _ \ __\ \ /\ / / _ \| '__| |/ / | |   / _ \| '_ \| '_ \ / _ \/ __| __| \ \ / / | __| | | |  / _` | '_ \ / _` | 
+ | |\  |  __/ |_ \ V  V / (_) | |  |   <  | |__| (_) | | | | | | |  __/ (__| |_| |\ V /| | |_| |_| | | (_| | | | | (_| | 
+ |_|_\_|\___|\__| \_/\_/ \___/|_|  |_|\_\__\____\___/|_| |_|_| |_|\___|\___|\__|_|_\_/ |_|\__|\__, |  \__,_|_| |_|\__,_| 
+ |  ___(_)_ __ _____      ____ _| | | |  _ \ _   _| | ___  ___  | ____|_  ___ __ | | __ _(_)_ |___/___  __| |            
+ | |_  | | '__/ _ \ \ /\ / / _` | | | | |_) | | | | |/ _ \/ __| |  _| \ \/ / '_ \| |/ _` | | '_ \ / _ \/ _` |            
+ |  _| | | | |  __/\ V  V / (_| | | | |  _ <| |_| | |  __/\__ \ | |___ >  <| -|_) | | (_| | | | | |  __/ (_| |            
+ |_|   |_|_|  \___| \_/\_/ \__,_|_|_| |_| \_\\__,_|_|\___||___/ |_____/_/\_\ .__/|_|\__,_|_|_| |_|\___|\__,_|            
+                                                                           |_|
+````
 With pfSense as your central firewall, it acts as the gatekeeper between all your virtual networks. 
 This means default connectivity between different segments is generally blocked by the firewall until you explicitly allow it
 
-SEE FIREWALL-CONFIGURATION.MD FILE 
+[SEE FIREWALL-CONFIGURATION.MD FILE](docs/firewall-configuration.md) 
 
 
-************************************************************************************************************
-5. SETUP GUIDE 
-************************************************************************************************************
-SEE SETUP SOLDER 
+````
+           _                             _     _      
+  ___  ___| |_ _   _ _ __     __ _ _   _(_) __| | ___ 
+ / __|/ _ \ __| | | | '_ \   / _` | | | | |/ _` |/ _ \
+ \__ \  __/ |_| |_| | |_) | | (_| | |_| | | (_| |  __/
+ |___/\___|\__|\__,_| .__/   \__, |\__,_|_|\__,_|\___|
+                    |_|      |___/                    
+````
+(Detailed setup instructions are located in the docs folder of this repository.)
+
+1. [Proxmox VE Server Setup](docs/setup/proxmox-setup.md)
+
+2. [pfSense Firewall Setup](docs/setup/pfsense-setup.md)
+
+3. [Wazuh SIEM/XDR Setup](docs/setup/wazuh-setup.md)
+
+4. [Kali Linux VM Setup](docs/setup/kali-linux-setup.md)
+
+5. [Windows 10 Client VM Setup](docs/setup/windows10-setup.md)
+
+6. [Metasploitable 2 (Linux) VM Setup](docs/setup/metasploitable2-setup.md)
+
+7. [Metasploitable 3 (Windows) VM Setup](docs/setup/metasploitable3-setup.md)
 
 
-************************************************************************************************************
-6. POST-SETUP & INITIAL CONFIGURATION
-************************************************************************************************************
+````
+  ____           _       ____       _                  ___     ___       _ _   _       _    ____             __ _                       _   _             
+ |  _ \ ___  ___| |_    / ___|  ___| |_ _   _ _ __    ( _ )   |_ _|_ __ (_) |_(_) __ _| |  / ___|___  _ __  / _(_) __ _ _   _ _ __ __ _| |_(_) ___  _ __  
+ | |_) / _ \/ __| __|___\___ \ / _ \ __| | | | '_ \   / _ \/\  | || '_ \| | __| |/ _` | | | |   / _ \| '_ \| |_| |/ _` | | | | '__/ _` | __| |/ _ \| '_ \ 
+ |  __/ (_) \__ \ ||_____|__) |  __/ |_| |_| | |_) | | (_>  <  | || | | | | |_| | (_| | | | |__| (_) | | | |  _| | (_| | |_| | | | (_| | |_| | (_) | | | |
+ |_|   \___/|___/\__|   |____/ \___|\__|\__,_| .__/   \___/\/ |___|_| |_|_|\__|_|\__,_|_|  \____\___/|_| |_|_| |_|\__, |\__,_|_|  \__,_|\__|_|\___/|_| |_|
+                                             |_|                                                                  |___/                                   
+
+````
 Connectivity Tests:
     Verify all VMs can ping each other across the correct network segments. Verify VMs can reach the internet. Crucially, test that VMs CANNOT ping your Proxmox host's management IP or devices on your home network.
 Wazuh Agent Enrollment: 
@@ -153,9 +204,15 @@ Initial Scans:
     Run a basic Nmap scan from Kali against Metasploitable targets to confirm network reachability and open ports.
 
 
-************************************************************************************************************
-USAGE AND LEARNING OBJECTIVES
-************************************************************************************************************
+````
+  _   _                         ___     _                          _                ___  _     _           _   _                
+ | | | |___  __ _  __ _  ___   ( _ )   | |    ___  __ _ _ __ _ __ (_)_ __   __ _   / _ \| |__ (_) ___  ___| |_(_)_   _____  ___ 
+ | | | / __|/ _` |/ _` |/ _ \  / _ \/\ | |   / _ \/ _` | '__| '_ \| | '_ \ / _` | | | | | '_ \| |/ _ \/ __| __| \ \ / / _ \/ __|
+ | |_| \__ \ (_| | (_| |  __/ | (_>  < | |__|  __/ (_| | |  | | | | | | | | (_| | | |_| | |_) | |  __/ (__| |_| |\ V /  __/\__ \
+  \___/|___/\__,_|\__, |\___|  \___/\/ |_____\___|\__,_|_|  |_| |_|_|_| |_|\__, |  \___/|_.__// |\___|\___|\__|_| \_/ \___||___/
+                  |___/                                                    |___/            |__/
+
+````
 Red Teaming: 
     Practice vulnerability scanning, exploitation, post-exploitation.
 Blue Teaming: 
@@ -164,17 +221,27 @@ Purple Teaming:
     Combine red and blue team exercises to improve detection and response capabilities.
 
 
-************************************************************************************************************
-FUTURE PLANS
-************************************************************************************************************
+````
+  _____      _                    ____  _                 
+ |  ___|   _| |_ _   _ _ __ ___  |  _ \| | __ _ _ __  ___ 
+ | |_ | | | | __| | | | '__/ _ \ | |_) | |/ _` | '_ \/ __|
+ |  _|| |_| | |_| |_| | | |  __/ |  __/| | (_| | | | \__ \
+ |_|   \__,_|\__|\__,_|_|  \___| |_|   |_|\__,_|_| |_|___/
+
+````
 Integrate a threat intelligence feed into Wazuh.
 Explore SOAR (Security Orchestration, Automation, and Response) tools.
 Add more intentionally vulnerable applications (e.g., OWASP Juice Shop).
  
+````
+  _____                _     _           _                 _   _               _   _       _            
+ |_   _| __ ___  _   _| |__ | | ___  ___| |__   ___   ___ | |_(_)_ __   __ _  | \ | | ___ | |_ ___  ___ 
+   | || '__/ _ \| | | | '_ \| |/ _ \/ __| '_ \ / _ \ / _ \| __| | '_ \ / _` | |  \| |/ _ \| __/ _ \/ __|
+   | || | | (_) | |_| | |_) | |  __/\__ \ | | | (_) | (_) | |_| | | | | (_| | | |\  | (_) | ||  __/\__ \
+   |_||_|  \___/ \__,_|_|__/|_|\___||___/_| |_|\___/ \___/ \__|_|_| |_|\__, | |_| \_|\___/ \__\___||___/
+                                                                       |___/
 
-************************************************************************************************************
-TROUBLESHOOTING NOTES
-************************************************************************************************************
+````
 "System Recovery Options" loop on Metasploitable 3: 
     Solved by changing VM disk Bus/Device from SCSI to IDE in Proxmox.
 
@@ -187,9 +254,14 @@ Network connectivity issues:
 Wazuh Agent not connecting: 
     Check firewall rules, agent configuration (manager IP), and manager logs.
 
-************************************************************************************************************
-CREDIT AND RESOURCES
-************************************************************************************************************
+````
+   ____              _ _ _          ___     ____                                         
+  / ___|_ __ ___  __| (_) |_ ___   ( _ )   |  _ \ ___  ___  ___  _   _ _ __ ___ ___  ___ 
+ | |   | '__/ _ \/ _` | | __/ __|  / _ \/\ | |_) / _ \/ __|/ _ \| | | | '__/ __/ _ \/ __|
+ | |___| | |  __/ (_| | | |_\__ \ | (_>  < |  _ <  __/\__ \ (_) | |_| | | | (_|  __/\__ \
+  \____|_|  \___|\__,_|_|\__|___/  \___/\/ |_| \_\___||___/\___/ \__,_|_|  \___\___||___/
+
+````
 Proxmox VE Official Website - [https://www.proxmox.com/en/]
 pfSense Official Website - [https://www.pfsense.org/]
 Wazuh Official Documentation - [https://documentation.wazuh.com/current/index.html]
