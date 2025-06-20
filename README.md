@@ -312,9 +312,7 @@ Add more intentionally vulnerable applications (e.g., OWASP Juice Shop).
 
 ````
 Proxmox VE Official Website - [https://www.proxmox.com/en/]
-
 pfSense Official Website - [https://www.pfsense.org/]
-
 Wazuh Official Documentation - [https://documentation.wazuh.com/current/index.html]
 
 Kali Linux Official Website - [https://www.kali.org/]
