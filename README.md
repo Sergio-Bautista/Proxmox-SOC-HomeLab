@@ -86,36 +86,36 @@ Safely experiment with intentionally vulnerable systems.
     *Hardware:* 
         Old Custom PC 
         
-        *CPU:* Ryzen 7 1700x 
+        CPU: Ryzen 7 1700x 
         
-        *RAM *32gb @ 3200Mhz 
+        RAM 32gb @ 3200Mhz 
         
-        *Storage:* 256gb SSD (OS)
+        Storage: 256gb SSD (OS)
         Two 2TB Hard Drives (RAID 1 - mirror) for VM disks.
          
         Requires only one physical network interface card (NIC)
     
-        *Operating System:* Proxmox VE [Version 8.x]
+        Operating System: Proxmox VE [Version 8.x]
 
 *Virtual Machines:*
 
-    *pfSense:* VMs Firewall/Router
+    pfSense: VMs Firewall/Router
     
-    *Wazuh:* SIEM/XDR (Manager and Dashboard)
+    Wazuh: SIEM/XDR (Manager and Dashboard)
     
-    *TheHive:* Free Security Incident Response Platform
+    TheHive: Free Security Incident Response Platform
     
-    *Kali Linux:* Attacker Workstation
+    Kali Linux: Attacker Workstation
     
-    *Windows Client:* Standard user workstation (Windows 10)
+    Windows Client: Standard user workstation (Windows 10)
     
-    *Metasploitable 2:* Vulnerable Linux Target
+    Metasploitable 2: Vulnerable Linux Target
     
-    *Metasploitable 3*: Vulnerable Windows Server 2008 R2 Target
+    Metasploitable 3: Vulnerable Windows Server 2008 R2 Target
     
-    *Windows Server:* For Active Directory (Future)
+    Windows Server: For Active Directory (Future)
     
-    *Windows/Linux Machines:* Add more targets (Future)
+    Windows/Linux Machines: Add more targets (Future)
 
 
 ````
@@ -129,18 +129,19 @@ Safely experiment with intentionally vulnerable systems.
 ````
 *Example Description:*
 
-    *The lab uses several virtual networks (Proxmox Bridges) managed by pfSense:*    
-        Shared WAN/Proxmox Management: vmbr0 (bridged to physical NIC eno1). This bridge handles both Proxmox host management from your home network and provides internet access to the lab via pfSense's 
+    The lab uses several virtual networks (Proxmox Bridges) managed by pfSense:    
+        Shared WAN/Proxmox Management: vmbr0 (bridged to physical NIC eno1). 
+        This bridge handles both Proxmox host management from your home network and provides internet access to the lab via pfSense's 
         
    *WAN interface.*
 
-    *Lab Management/Attacker Network (LAN):* 
+    Lab Management/Attacker Network (LAN): 
         vmbr1 (10.0.0.0/24) - Where Kali Linux will reside.
     
-    *Vulnerable Zone (DMZ):* 
+    Vulnerable Zone (DMZ): 
         vmbr2 (10.0.10.0/24) - Where Metasploitable 2/3 and your Windows Client VM will reside.
     
-    *Blue Team Tools Network:* 
+    Blue Team Tools Network: 
         vmbr3 (10.0.20.0/24) - Where Wazuh and TheHive will reside.
 
 ````
@@ -215,7 +216,6 @@ This means default connectivity between different segments is generally blocked 
 (Detailed setup instructions are located in the docs folder of this repository.)
 
 1. [Proxmox VE Server Setup](docs/setup/proxmox-setup.md)
-
 2. [pfSense Firewall Setup](docs/setup/pfsense-setup.md)
 
 3. [Wazuh SIEM/XDR Setup](docs/setup/wazuh-setup.md)
@@ -240,7 +240,9 @@ This means default connectivity between different segments is generally blocked 
 ````
 *Connectivity Tests:*
     
-    Verify all VMs can ping each other across the correct network segments. Verify VMs can reach the internet. Crucially, test that VMs CANNOT ping your Proxmox host's management IP or devices on your home network.
+    Verify all VMs can ping each other across the correct network segments. 
+    Verify VMs can reach the internet. 
+    Crucially, test that VMs CANNOT ping your Proxmox host's management IP or devices on your home network.
 
 *Wazuh Agent Enrollment:*
     
