@@ -25,21 +25,37 @@ designed for practicing offensive and defensive cybersecurity skills in a contro
 
 ````
 1.-Lab Overview
+
 2.-Hardware & Software Stack
+
 3.-Network Topology
+
 4.-Network Connectivity and Firewall Rules Explained
+
 5.-Setup Guides
+    
     Proxmox VE Server Setup
+    
     pfSense Firewall Setup
+    
     Wazuh SIEM/XDR Setup
+    
     Kali Linux VM Setup
+    
     Windows 10/Server Client VM Setup
+    
     Metasploitable 2 (Linux) VM Setup
+    
     Metasploitable 3 (Windows) VM Setup
+
 6.-Post-Setup & Initial Configuration
+
 7.-Usage & Learning Objectives
+
 F8.-uture Plans
+
 9.-Troubleshooting Notes
+
 10Credits & Resources
 
 ````
