@@ -1,0 +1,8 @@
+Proxmox VE Official Website - [https://www.proxmox.com/en/]
+pfSense Official Website - [https://www.pfsense.org/]
+Wazuh Official Documentation - [https://documentation.wazuh.com/current/index.html]
+Kali Linux Official Website - [https://www.kali.org/]
+Metasploitable 2 - [https://docs.rapid7.com/metasploit/metasploitable-2/]
+Metasploitable 3 GitHub - [https://github.com/rapid7/metasploitable3]
+Fedora VirtIO Drivers (for virtio-win.iso) [https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/]
+Check out this tutorial - [https://www.youtube.com/watch?v=VuSKMPRXN1M&t=764s]
