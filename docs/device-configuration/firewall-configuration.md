@@ -173,4 +173,4 @@ Outbound NAT: Ensure default outbound NAT rules are enabled on the WAN.
     
     - Finally, ensure you have "Allow" rules for outbound traffic to WAN net or any that allow internet access on your internal interfaces. These Pass to Internet rules must be below all specific Block rules and specific Pass rules.
 
-firewall interfaces [assets/Pfsenseinterfaces.png]
+firewall interfaces [here](../assets/Pfsenseinterfaces.png)

@@ -214,10 +214,11 @@ See [firewall-configuration.md](docs/firewall-configuration.md)
 1. [Proxmox VE Server Setup](docs/setup/proxmox-setup.md)
 2. [pfSense Firewall Setup](docs/setup/pfsense-setup.md)
 3. [Wazuh SIEM/XDR Setup](docs/setup/wazuh-setup.md)
-4. [Kali Linux VM Setup](docs/setup/kali-linux-setup.md)
-5. [Windows 10 Client VM Setup](docs/setup/windows10-setup.md)
-6. [Metasploitable 2 (Linux) VM Setup](docs/setup/metasploitable2-setup.md)
-7. [Metasploitable 3 (Windows) VM Setup](docs/setup/metasploitable3-setup.md)
+4. [TheHive setup](docs/setup/thehive-setup.md)
+6. [Kali Linux VM Setup](docs/setup/kali-linux-setup.md)
+7. [Windows 10 Client VM Setup](docs/setup/windows10-setup.md)
+8. [Metasploitable 2 (Linux) VM Setup](docs/setup/metasploitable2-setup.md)
+9. [Metasploitable 3 (Windows) VM Setup](docs/setup/metasploitable3-setup.md)
 
 
 ````
