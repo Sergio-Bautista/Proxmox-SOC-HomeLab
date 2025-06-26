@@ -25,3 +25,6 @@ __        __              _        ____             __ _                       _
 
 - After these steps your reload you Wazuh dashboard and you should see your new agent
 **YOU MIGHT NEED TO WAIT FOR THE AGENT TO CONNECT**
+
+
+
